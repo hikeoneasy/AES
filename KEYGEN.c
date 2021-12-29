@@ -53,3 +53,27 @@ void Key_schedule(byte state[keysize], int now_round)
 		state[i + 8] = rk2[i]; state[i + 12] = rk3[i];
 	}
 }
+
+
+void INV_KEY_schedule(byte state[keysize], int now_round)
+{
+
+	//4-th col
+	state[12] ^= state[8]; state[13] ^= state[9];
+	state[14] ^= state[10]; state[15] ^= state[11];
+
+	//3-th col
+	state[8] ^= state[4]; state[9] ^= state[5];
+	state[10] ^= state[6]; state[11] ^= state[7];
+
+	//2-th col
+	state[4] ^= state[0]; state[5] ^= state[1];
+	state[6] ^= state[2]; state[7] ^= state[3];
+
+	//1-th col
+
+	state[0] ^= Rcon[now_round] ^ s_box[state[13]];
+	state[1] ^= s_box[state[14]];
+	state[2] ^= s_box[state[15]];
+	state[3] ^= s_box[state[12]];
+}
